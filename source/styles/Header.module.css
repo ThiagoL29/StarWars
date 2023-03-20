@@ -1,0 +1,33 @@
+.header {
+    
+}
+
+.navbar {
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.logo {
+    text-align: center;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 0px 20px;
+    cursor: pointer;
+}
+
+h1 {
+    cursor: pointer;
+}
+
