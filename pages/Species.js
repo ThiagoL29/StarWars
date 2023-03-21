@@ -3,15 +3,27 @@ import { Box } from '@mui/system';
 import axios from 'axios';
 
 function Species() {
+    const endpoints = [
+      "https://swapi.dev/api/species",
+      "https://swapi.dev/api/species/?page=2",
+      "https://swapi.dev/api/species/?page=3",
+      "https://swapi.dev/api/species/?page=4"
+    ];
+
+    const requests = endpoints.map((endpoint) => axios.get(endpoint));
     const [posts, setPosts] = useState([]);
+    let conArray = [];
 
     useEffect(() => {
-        axios.get("https://swapi.dev/api/species")
-        .then((response) => {
-            setPosts(response.data.results);
-        }).catch((error) => {
-            console.log(error);
-        })
+      axios.all(requests)
+      .then((responses) => {
+          responses.forEach((resp) => {
+            conArray = conArray.concat(resp.data.results);
+          });
+          setPosts(conArray);
+      }).catch((error) => {
+          console.log(error);
+      })
 
     }, []);
 

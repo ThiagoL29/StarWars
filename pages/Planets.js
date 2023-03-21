@@ -3,15 +3,29 @@ import { Box } from '@mui/system';
 import axios from 'axios';
 
 function Planets() {
+    const endpoints = [
+      "https://swapi.dev/api/planets",
+      "https://swapi.dev/api/planets/?page=2",
+      "https://swapi.dev/api/planets/?page=3",
+      "https://swapi.dev/api/planets/?page=4",
+      "https://swapi.dev/api/planets/?page=5",
+      "https://swapi.dev/api/planets/?page=6"
+    ];
+
+    const requests = endpoints.map((endpoint) => axios.get(endpoint));
     const [posts, setPosts] = useState([]);
+    let conArray = [];
 
     useEffect(() => {
-        axios.get("https://swapi.dev/api/planets")
-        .then((response) => {
-            setPosts(response.data.results);
-        }).catch((error) => {
-            console.log(error);
-        })
+      axios.all(requests)
+      .then((responses) => {
+          responses.forEach((resp) => {
+            conArray = conArray.concat(resp.data.results);
+          });
+          setPosts(conArray);
+      }).catch((error) => {
+          console.log(error);
+      })
 
     }, []);
 

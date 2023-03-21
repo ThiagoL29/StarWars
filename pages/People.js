@@ -3,12 +3,29 @@ import { Box } from '@mui/system';
 import axios from 'axios';
 
 function People() {
+    const endpoints = [
+      "https://swapi.dev/api/people",
+      "https://swapi.dev/api/people/?page=2",
+      "https://swapi.dev/api/people/?page=3",
+      "https://swapi.dev/api/people/?page=4",
+      "https://swapi.dev/api/people/?page=5",
+      "https://swapi.dev/api/people/?page=6",
+      "https://swapi.dev/api/people/?page=7",
+      "https://swapi.dev/api/people/?page=8",
+      "https://swapi.dev/api/people/?page=9",
+    ];
+
+    const requests = endpoints.map((endpoint) => axios.get(endpoint));
     const [posts, setPosts] = useState([]);
+    let conArray = [];
 
     useEffect(() => {
-        axios.get("https://swapi.dev/api/people")
-        .then((response) => {
-            setPosts(response.data.results);
+        axios.all(requests)
+        .then((responses) => {
+            responses.forEach((resp) => {
+              conArray = conArray.concat(resp.data.results);
+            });
+            setPosts(conArray);
         }).catch((error) => {
             console.log(error);
         })
